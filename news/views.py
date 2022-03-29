@@ -1,11 +1,10 @@
-import email
-from unicodedata import name
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 import datetime as dt
 from .models import Article, NewsLetterRecipients
 from .forms import NewsletterForm
 from .emails import send_welcome_email
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def news_today(request):
@@ -60,7 +59,9 @@ def search_results(request):
         message = "You haven't searched for any term"
         return render(request, 'all-news/search.html',{"message":message})
 
-def article(request,article_id):
+
+@login_required(login_url='/accounts/login/')
+def article(request, article_id):
     try:
         article = Article.objects.get(id = article_id)
     except DoesNotExist:
