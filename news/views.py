@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 import datetime as dt
 from .models import Article
-from .forms import NewsLetterForm
+from .forms import NewsletterForm
 
 # Create your views here.
 def news_today(request):
@@ -10,11 +10,11 @@ def news_today(request):
     news = Article.todays_news()
 
     if request.method == 'POST':
-        form = NewsLetterForm(request.POST)
+        form = NewsletterForm(request.POST)
         if form.is_valid():
             print('valid')
     else:
-        form = NewsLetterForm()
+        form = NewsletterForm()
     return render(request, 'all-news/today-news.html', {"date": date,"news":news,"letterForm":form})
 
 
